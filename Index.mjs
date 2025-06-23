@@ -41,6 +41,7 @@ function ingredientCreation(dataIngredients)
 ingredientCreation(data.ingredients);
 
 console.log(cauldron.ingredients[0].effects)
+console.log(cauldron.ingredients[1].effects)
 
 //Crearemos las 6 pociones con los datos dados
 const name1 = "Bear Claws"

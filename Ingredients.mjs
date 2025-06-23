@@ -20,7 +20,7 @@ export default class Ingredients{
     
                 return positiveEffects;
             }
-            if(dataEffects[i].includes("Weakness", "Damage", "Ravage", "Frenzy", "Fear", "Paralysis", "Slow"))
+            if(dataEffects[i].includes("Weakness") || dataEffects[i].includes("Damage") ||  dataEffects[i].includes("Ravage") || dataEffects[i].includes("Frenzy"), dataEffects[i].includes("Paralysis"),dataEffects[i].includes("Slow"))
             {
                 let negativeEffects = new Effect (dataEffects[i], "Negative")
                 return negativeEffects;
