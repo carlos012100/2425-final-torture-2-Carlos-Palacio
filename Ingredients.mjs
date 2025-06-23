@@ -1,3 +1,4 @@
+import Effect from "./Effect.mjs";
 export default class Ingredients{
     constructor(name, effects, value, weight)
     {
@@ -7,10 +8,29 @@ export default class Ingredients{
         this.weight = weight;
         this.isEffectPositive = false;
     }
+    //Creamos un array con los effectos
+    
+    effectCreation(dataEffects)
+    {
+        for( let i = 0; i < dataEffects.length; ++i)
+        {
+            if(dataEffects[i].includes("Fortify", "Cure", "Restore", "Regenerate", "Invisibility", "Waterbreathing"))
+            {
+                let positiveEffects = new Effect(dataEffects[i], "Positive")
+    
+                return positiveEffects;
+            }
+            if(dataEffects[i].includes("Weakness", "Damage", "Ravage", "Frenzy", "Fear", "Paralysis", "Slow"))
+            {
+                let negativeEffects = new Effect (dataEffects[i], "Negative")
+                return negativeEffects;
+            }
+        }
+    }
 
     create(jsonObject)
     {
-        let newIngredient = new Ingredients(jsonObject.name, jsonObject.effects, jsonObject.value, jsonObject.weight);
+        let newIngredient = new Ingredients(jsonObject.name, this.effectCreation(jsonObject.effects), jsonObject.value, jsonObject.weight);
 
         return newIngredient;
     }

@@ -3,42 +3,42 @@ import Posion from "./Poison.mjs";
 import ArrantPack from "./ArrantPrack.mjs";
 import Potion from "./Potion.mjs";
 import Sanity from "./Sanity.mjs";
+import Ingredients from "./Ingredients.mjs";
 
 export default class Cauldron{
 
     constructor(){
         this.ingredients = [];
+        this.modifier = null 
+        this.potionEffects = null;
+        this.sumOfValues = null;
     }
     createPotion(name1, name2)
     {
         let arrayOfEffectNames = [];
 
-       const firstIngredient = this.findtheRightPotion(name1);
+       let firstIngredient = this.findtheRightPotion(name1);
 
-       const secondIngredient = this.findtheRightPotion(name2);
+       let secondIngredient = this.findtheRightPotion(name2);
+
 
        this.checkIfPotionisPositiveOrNegative(firstIngredient);
        this.checkIfPotionisPositiveOrNegative(secondIngredient);
 
        arrayOfEffectNames = this.findEffectsInCommon(firstIngredient, secondIngredient);
-
-       let modifier = null; 
-
-       let potionEffects = null;
-
-       let sumOfValues = null;
+       console.log(arrayOfEffectNames)
 
        if( arrayOfEffectNames.length >= 2)
        {
-        modifier = "Greater";
-        potionEffects = arrayOfEffectNames[0] + "and" + arrayOfEffectNames[1]
-        sumOfValues = (firstIngredient.values + secondIngredient.values) * 3;
+        this.modifier = "Greater";
+        this.potionEffects = arrayOfEffectNames[0] + "and" + arrayOfEffectNames[1]
+        this.sumOfValues = (firstIngredient.values + secondIngredient.values) * 3;
        }
        if(arrayOfEffectNames.length === 1)
        {
-        modifier = "Lesser";
-        potionEffects = arrayOfEffectNames[0];
-        sumOfValues = firstIngredient.values + secondIngredient.values;
+        this.modifier = "Lesser";
+        this.potionEffects = arrayOfEffectNames[0];
+        this.sumOfValues = firstIngredient.values + secondIngredient.values;
        }
 
        let sumOfIngredientsWeight = firstIngredient.weight + secondIngredient.weight;
@@ -48,8 +48,8 @@ export default class Cauldron{
         //we create an elixir
         // arrayOfEffectNames[0] + arrayOfEffectNames[1]
 
-        const name = modifier + "elixir of" + potionEffects;
-        let newElixir = new Elixir(name, sumOfIngredientsWeight,sumOfValues)
+        const name = this.modifier + "elixir of" + this.potionEffects;
+        let newElixir = new Elixir(name, sumOfIngredientsWeight,this.sumOfValues)
         console.log(newElixir);
         return newElixir;
        }
@@ -57,8 +57,8 @@ export default class Cauldron{
         {
         //create posion
         const timeDefault = 10;
-        const name = modifier + "Poison of" + potionEffects;
-        let newPoison = new Posion (name, sumOfIngredientsWeight,sumOfValues, timeDefault)
+        const name = this.modifier + "Poison of" + this.potionEffects;
+        let newPoison = new Posion (name, sumOfIngredientsWeight,this.sumOfValues, timeDefault)
         console.log(newPoison);
         return newPoison;
         }
@@ -89,25 +89,21 @@ export default class Cauldron{
     }
     findEffectsInCommon(firstIngredient, secondIngredient)
     {
-        let counter = 0;
         let arrayOfEffectNames = []
-        for (let i = 0; i < firstIngredient.effect.length; ++i)
+        for (let i = 0; i < firstIngredient.effects.length; ++i)
         {
-            for(let j = 0; j < secondIngredient.effect.length; ++j)
+            for(let j = 0; j < secondIngredient.effects.length; ++j)
             {
-                if(firstIngredient.effect[i].name === secondIngredient.effect[j].name)
+                if(firstIngredient.effects[i] === secondIngredient.effects[j])
                 {
-                    ++counter;
-
-                    return arrayOfEffectNames.push(secondIngredient.effect[j].name)
+                    return arrayOfEffectNames.push(secondIngredient.effects[j])
                 }
             }
         }
     }
     checkIfPotionisPositiveOrNegative(ingredient){
-         for(let j = 0; j < ingredient.effect.length; ++j)
-       {
-        if (ingredient.effect[j].type === "Positive")
+
+        if (ingredient.effects.type === "Positive")
         {
             ingredient.isEffectPositive = true;
 
@@ -116,20 +112,18 @@ export default class Cauldron{
             ingredient.isEffectPositive = false;
 
         }
-       }
+       
 
 
     }
 
     
-    findtheRightPotion(name){
+    findtheRightPotion(string){
          for(let i = 0; i < this.ingredients.length; ++i)
         {
-            if(this.ingredients[i].name === name){
+    
+            if(this.ingredients[i].name === string){
                 return this.ingredients[i];
-            }
-            else{
-                return null;
             }
         }
     }
