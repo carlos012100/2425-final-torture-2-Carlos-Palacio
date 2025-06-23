@@ -1,3 +1,6 @@
+import Cauldron from "./Cauldron.mjs";
+import Ingredients from "./Ingredients.mjs";
+import Potion from "./Potion.mjs";
 
 async function loaData()
 {
@@ -7,7 +10,25 @@ async function loaData()
 
     return data;
 }
-let data = []
- data = await loaData();
+
+ let data = await loaData();
 
 console.log("data", data)
+
+const cauldron = new Cauldron ()
+
+console.log(data.ingredients.length)
+
+
+function ingredientCreation(dataIngredients)
+{
+    for(let i = 0; i < dataIngredients.length; ++i)
+    {
+        let newIngredient = new Ingredients().create(dataIngredients[i])
+
+        cauldron.ingredients.push(newIngredient);
+    
+    }
+    console.log(cauldron.ingredients)
+}
+ingredientCreation(data.ingredients)

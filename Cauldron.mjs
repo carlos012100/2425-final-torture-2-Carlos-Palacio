@@ -1,8 +1,8 @@
 import Elixir from "./Elixir.mjs";
 import Posion from "./Poison.mjs";
-import Sanity from "./Sanity.mjs";
 import ArrantPack from "./ArrantPrack.mjs";
 import Potion from "./Potion.mjs";
+import Sanity from "./Sanity.mjs";
 
 export default class Cauldron{
 
@@ -82,6 +82,7 @@ export default class Cauldron{
             const escoria = new ArrantPack(name, value, weight, time)
             console.log(escoria);
             return escoria;
+
         }
 
 
